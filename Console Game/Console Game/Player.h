@@ -37,14 +37,14 @@ public:
 	int GetGold() const{
 		return gold;
 	}
-	void SetGold(int g){
+	void SetGold(int& g){
 		gold = g;
 	}
 	vector<pair<Creature*, int> >* ReturnUnits(){  // not a const; the units will be changed after being returned
 		return &(this->units);
 	}
-	void SetUnits(vector<pair<Creature*, int> >* units){
-		this->units = *(units);
+	void SetUnits(vector<pair<Creature*, int> >& units){
+		this->units = units;
 	}
 
 protected:
