@@ -49,6 +49,7 @@ public:
 	void SetAttackRange(int a){
 		attackRange = a;
 	}
+	// какви параметри ще им се подават; позиции на картата?
 	virtual void Attack() = 0;
 	virtual void Move() = 0;
 
