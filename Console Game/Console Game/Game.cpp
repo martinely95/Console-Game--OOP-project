@@ -73,6 +73,6 @@ void Game::ShopMenu()
 	{
 		cout << "Shop menu." << endl;
 		getline(cin, action);
-		MainMenuTakeAction(action, exit);
+		ShopMenuTakeAction(action, exit);
 	}
 }
