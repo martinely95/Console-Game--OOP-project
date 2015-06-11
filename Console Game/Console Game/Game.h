@@ -44,6 +44,8 @@ public:
 	void MainMenuTakeAction(string& action, bool& exit);
 	void ShopMenu();
 	void ShopMenuTakeAction(string& action, bool& exit);
+	void GameMenu();
+	void GameMenuTakeAction(string& action, bool& exit);
 
 	Shop* ReturnShop(){
 		return &(this->shop);

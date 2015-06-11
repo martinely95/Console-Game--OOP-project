@@ -76,3 +76,63 @@ void Game::ShopMenu()
 		ShopMenuTakeAction(action, exit);
 	}
 }
+
+void Game::GameMenuTakeAction(string& action, bool& exit)
+{
+	std::vector<std::string> commands = split(action, ' ');
+	if (commands[0] == "move")  // - преместване на дадена единици на позиция на полето
+	{
+		// not implemented yet
+		/*
+		- преместване на дадена единици на позиция на полето 
+		- да бъде реализирана чрез командата move <source coords> <destination coords>. 
+		Например ако на позиция (2,2) имаме грифон и искаме да го преместим на позиция (5,5), то командата ще е move (2,2) (5,5). 
+		Тук трябва да се правят проверки дали destination coordinates не е заето от друга единица и дали единицата може да ходи толкова далеч
+		*/
+	}
+	else if (commands[0] == "attack")  // - нападане на противникова единица
+	{
+		// not implemented yet
+		/*
+		-командата да е attack <source coords> <destination coords>.
+		Например ако на(4, 4) имаме противников Footman, а на(2, 2) имаме наш Peasant, 
+		с attack(2, 2) (4, 4) ще преместим Peasant - a на квадратче, 
+		което е на 1 единица разстояние(например(3, 3)) и ще нападнем протовниковия Footman.
+		*/
+	}
+	else if (action == "print current state")  // - принтиране във файл текущото състояние на полето
+	{
+		// not implemented yet
+		/*
+		- как са разположени единиците:
+		- нашите единици да бъдат отбелязани така: P за Peasant, A за Archer, F за Footman, G за Griffon, H за Hero.
+		- противниковите единици да бъдат отбелязани така: ЕP за Peasant, ЕA за Archer, ЕF за Footman, ЕG за Griffon, ЕH за Hero.
+		- под таблицата да бъде изкарано колко единици има от всеки тип в момента на полето
+		Например: P 10, A 14, F 20, G 3, H 1, EP 20, EA 40, EF 30, EG 8, EH 1
+		*/
+	}
+	else if (action == "end move")  // -приключване на текущия ход.
+	{
+		// not implemented yet
+		/*
+		Когато приключим хода, противниковият играч трябва да изиграе хода си и да разположи своите единици, след което отново ние сме наред.
+		*/
+	}
+	else if (action == "exit")
+		exit = 1;
+	else
+		cout << "Wrong input!" << endl;
+}
+
+void Game::GameMenu()
+{
+
+	string action;
+	bool exit = false;
+	while (!exit)
+	{
+		cout << "Game menu." << endl;
+		getline(cin, action);
+		GameMenuTakeAction(action, exit);
+	}
+}
