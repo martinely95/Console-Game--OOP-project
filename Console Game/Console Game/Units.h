@@ -1,6 +1,13 @@
 #ifndef UNITS_H
 #define UNITS_H
 
+enum Creatures {
+	peasant,
+	footman,
+	archer,
+	griffon
+};
+
 class Creature{
 public:
 	Creature() : damage(1), defense(1), health(5), mana(3), stamina(3), critChance(1), attackRange(1){};
