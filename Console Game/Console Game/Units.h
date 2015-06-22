@@ -82,6 +82,10 @@ public:
 
 class Footman : public Creature {
 public:
+	Footman() : Creature() {
+		this->stamina = 4;
+		this->damage = 3;
+	}
 	virtual void Attack(){
 		// още не съм го имплементирал
 	}
@@ -92,6 +96,10 @@ public:
 
 class Archer : public Creature {
 public:
+	Archer() : Creature() {
+		this->attackRange = -1;  // atakuva navsqkade
+		this->damage = 2;
+	}
 	virtual void Attack(){
 		// още не съм го имплементирал
 	}
@@ -102,6 +110,11 @@ public:
 
 class Griffon : public Creature {
 public:
+	Griffon() : Creature() {
+		this->stamina = 5;
+		this->attackRange = 2;
+		this->damage = 4;
+	}
 	virtual void Attack(){
 		// още не съм го имплементирал
 	}
@@ -112,6 +125,11 @@ public:
 
 class Hero : public Creature {
 public:
+	Hero() : Creature() {
+		this->stamina = 0; // ne moje da se mesti po poleto
+		this->attackRange = -1; // atakuva navsqkade
+		this->damage = 2;
+	}
 	virtual void Attack(){
 		// още не съм го имплементирал
 	}
