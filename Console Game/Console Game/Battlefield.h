@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <tuple>
 
 #include "Units.h"
 
@@ -12,11 +13,11 @@ class Battlefield{
 public:
 	Battlefield(){
 		for (int i = 0; i < SIZE_X; i++){
-			vector<Creature*> row(SIZE_Y);
+			vector<std::pair<Creature*, int> > row(SIZE_Y);
 			this->field.push_back(row);
 		}
 	}
-	vector<Creature*>& operator[](int id){
+	std::vector<std::pair<Creature*, int> >& operator[](int id){
 		try {
 			return field[id];
 		}
@@ -28,7 +29,7 @@ public:
 protected:
 	const int SIZE_X = 10;
 	const int SIZE_Y = 10;
-	std::vector<std::vector<Creature*> > field;
+	std::vector<std::vector<std::pair<Creature*, int> > > field; // на 1 квадратче се разползагат всички единици от 1 тип за съответен играч
 };
 
 #endif

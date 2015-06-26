@@ -131,7 +131,12 @@ void Game::GameMenu()
 	bool exit = false;
 	while (!exit)
 	{
-		cout << "Game menu." << endl;
+		cout << "Game menu." << endl; 	// също така трябва да изписва кой е на ход в момента: играч/ противник
+		if (this->playerTurn) 
+			cout << "Your turn." << endl;
+		else
+			cout << "Enemy's turn." << endl;
+		cout << "Enter your desired actions: " << endl;
 		getline(cin, action);
 		GameMenuTakeAction(action, exit);
 	}

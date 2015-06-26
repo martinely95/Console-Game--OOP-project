@@ -57,8 +57,8 @@ public:
 		attackRange = a;
 	}
 	// какви параметри ще им се подават; позиции на картата?
-	virtual void Attack() = 0;
-	virtual void Move() = 0;
+	virtual void Attack() = 0;  // прави се комбиниран damage от всички единици на съответното квадратче
+	virtual void Move() = 0;  // най вероятно всички единици от 1 квадратче отиват на друго квадратче
 
 protected:
 	int damage;
@@ -74,6 +74,8 @@ class Peasant : public Creature {
 public:
 	virtual void Attack(){
 		// още не съм го имплементирал
+		// tuk nai veroqtno 6te se proverqva dali nqkoi ima ostanali edinici i 
+		// ako nqma 6te se promenq endGame = true i playerWins = true
 	}
 	virtual void Move(){
 		//още не съм го имплементирал

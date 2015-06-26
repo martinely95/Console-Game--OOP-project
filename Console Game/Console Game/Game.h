@@ -47,6 +47,26 @@ public:
 	void GameMenu();
 	void GameMenuTakeAction(string& action, bool& exit);
 
+	void EnemyTurn(){
+
+		//implement artificial intelligence
+	}
+
+	void EndGame(){
+		// // tuk nai veroqtno 6te se proverqva dali nqkoi ima ostanali edinici i 
+		// ako nqma 6te se promenq endGame = true i playerWins = true
+		
+		
+		//izpisvame koi e spe4elil i kolko zlato ala bala
+
+
+
+	}
+
+	void Run(){
+		MainMenu();
+	}
+
 	Shop* ReturnShop(){
 		return &(this->shop);
 	}
@@ -58,5 +78,8 @@ protected:
 	Player* m_player;
 	Player* m_enemy;
 	Shop shop;
+	bool playerTurn = true;
+	bool endGame = false;
+	bool playerWins = false;
 };
 #endif
