@@ -1,5 +1,9 @@
 #include <iostream>
 #include <cmath>
+#include <fstream>
+// create a folder if not exist
+#include <windows.h>
+#include <stdio.h>
 
 #include "Split_StringToInt.h"
 #include "Game.h"
@@ -187,6 +191,20 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 	}
 	else if (action == "print current state")  // - принтиране във файл текущото състояние на полето
 	{
+		std::string targetPath = "states\\";
+		std::string targetFile = targetPath + "state.txt";
+		
+		CreateDirectory(targetPath.c_str(), NULL);
+		std::fstream file;
+		file.open(targetFile.c_str(), std::fstream::out | std::fstream::trunc);
+		if (file.is_open()) {
+			file << " more lorem ipsum";
+
+			file.close();
+		}
+		else
+			cout << "Unable to open file!" << endl << endl;
+
 		// not implemented yet
 		/*
 		- как са разположени единиците:
