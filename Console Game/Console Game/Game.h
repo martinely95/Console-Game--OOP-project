@@ -15,30 +15,39 @@ class Game{
 public:
 	Game(){  // constructor
 		shop = Shop();
-		Player enemy;
+		m_enemy = new Player;
+		//Player enemy = Player();
+		//m_enemy = &enemy;
+		/*Creature* playerUnitPeasant = new Peasant;
+		Creature* playerUnitFootman = new Footman;
+		Creature* playerUnitArcher = new Archer;
+		Creature* playerUnitGriffon = new Griffon;*/
 
-		Peasant playerUnitPeasant;
-		Footman playerUnitFootman;
-		Archer playerUnitArcher;
-		Griffon playerUnitGriffon;
+		/*Creature* creature1 = playerUnitPeasant;
+		Creature* creature2 = playerUnitFootman;
+		Creature* creature3 = playerUnitArcher;
+		Creature* creature4 = playerUnitGriffon;*/
 
-		Creature* creature1 = &playerUnitPeasant;
-		Creature* creature2 = &playerUnitFootman;
-		Creature* creature3 = &playerUnitArcher;
-		Creature* creature4 = &playerUnitGriffon;
+		/*std::pair<Creature*, int> p1(playerUnitPeasant, 1);
+		std::pair<Creature*, int> p2(playerUnitFootman, 0);
+		std::pair<Creature*, int> p3(playerUnitArcher, 1);
+		std::pair<Creature*, int> p4(playerUnitGriffon, 1);*/
 
-		std::pair<Creature*, int> p1(creature1, 4);
-		std::pair<Creature*, int> p2(creature2, 3);
-		std::pair<Creature*, int> p3(creature3, 2);
-		std::pair<Creature*, int> p4(creature4, 1);
+		m_enemy->SetGold(10);
 
-		std::vector<pair<Creature*, int> > units;
-		units.push_back(p1);
-		units.push_back(p2);
-		units.push_back(p3);
-		units.push_back(p4);
-		enemy.SetUnits(units);
-		m_enemy = &enemy;
+		std::vector<pair<Creature*, int> >* units1 = m_enemy->ReturnUnits();
+		units1->at(0).second = 1;
+		units1->at(2).second = 1;
+		units1->at(3).second = 1;
+		/*units1.push_back(p1);
+		units1.push_back(p2);
+		units1.push_back(p3);
+		units1.push_back(p4);
+		m_enemy->SetUnits(units1);
+		m_enemy = &enemy;*/
+
+		m_player = new Player;
+		//m_player = &player;
 	}
 	void MainMenu();
 	void MainMenuTakeAction(string& action, bool& exit);

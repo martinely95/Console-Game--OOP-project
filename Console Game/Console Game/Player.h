@@ -13,7 +13,7 @@ public:
 	Player(){  // (empty units, gold always 300)
 		gold = 300;
 
-		Peasant playerUnitPeasant;
+		/*Peasant playerUnitPeasant;
 		Footman playerUnitFootman;
 		Archer playerUnitArcher;
 		Griffon playerUnitGriffon;
@@ -31,19 +31,34 @@ public:
 		units.push_back(p1);
 		units.push_back(p2);
 		units.push_back(p3);
+		units.push_back(p4);*/
+
+		Creature* playerUnitPeasant = new Peasant;
+		Creature* playerUnitFootman = new Footman;
+		Creature* playerUnitArcher = new Archer;
+		Creature* playerUnitGriffon = new Griffon;
+
+		std::pair<Creature*, int> p1(playerUnitPeasant, 0);
+		std::pair<Creature*, int> p2(playerUnitFootman, 0);
+		std::pair<Creature*, int> p3(playerUnitArcher, 0);
+		std::pair<Creature*, int> p4(playerUnitGriffon, 0);
+
+		units.push_back(p1);
+		units.push_back(p2);
+		units.push_back(p3);
 		units.push_back(p4);
 	}
 	Player(std::vector<pair<Creature*, int> > units, int gold=300) : units(units), gold(gold){};  // (units, gold=300 default)
 	int GetGold() const{
 		return gold;
 	}
-	void SetGold(int& g){
+	void SetGold(int g){
 		gold = g;
 	}
 	vector<pair<Creature*, int> >* ReturnUnits(){  // not a const; the units will be changed after being returned
 		return &(this->units);
 	}
-	void SetUnits(vector<pair<Creature*, int> >& units){
+	void SetUnits(vector<pair<Creature*, int> > units){
 		this->units = units;
 	}
 

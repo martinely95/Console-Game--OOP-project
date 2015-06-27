@@ -11,15 +11,19 @@ void Game::MainMenuTakeAction(string& action, bool& exit)
 	if (action == "start game")  // -започване на игра
 	{
 		// not implemented yet
+		// pri startirane na igra, ako takava ve4e e zapo4nala prosto da q prodalji - 4oveka moje da se e varnal prosto zaradi magazina
 	}
 	else if (action == "shop")  // - посещаване на магазина
 	{
-		// not implemented yet
+		ShopMenu();
 	}
 	else if (action == "exit")  // - излизане от играта
 		exit = 1;
 	else
+	{
 		cout << "Wrong input!" << endl;
+		cout << endl;
+	}
 }
 
 void Game::MainMenu()
@@ -30,6 +34,11 @@ void Game::MainMenu()
 	while (!exit)
 	{
 		cout << "Main menu." << endl;
+		cout << "Available commands: " << endl;
+		cout << "start game" << endl;
+		cout << "shop" << endl;
+		cout << "exit" << endl;
+		cout << endl;
 		getline(cin, action);
 		MainMenuTakeAction(action, exit);
 	}
@@ -44,24 +53,40 @@ void Game::ShopMenuTakeAction(string& action, bool& exit)
 	}
 	else if (commands[0] == "buy")  // - закупуване на определен брой единици
 	{
-		int count = StringToInt(commands[2]);
-		if (commands[1] == "peasant")
-			ReturnShop()->BuyUnit(Creatures::peasant, count, ReturnPlayer());
-		else if (commands[1] == "archer")
-			ReturnShop()->BuyUnit(Creatures::archer, count, ReturnPlayer());
-		else if (commands[1] == "footman")
-			ReturnShop()->BuyUnit(Creatures::footman, count, ReturnPlayer());
-		else if (commands[1] == "griffon")
-			ReturnShop()->BuyUnit(Creatures::griffon, count, ReturnPlayer());
+		if (ReturnPlayer() == nullptr){
+			cout << "No game in progress. " << endl << endl;
+			return;
+		}
+		if (commands.size() > 2) {
+			int count = StringToInt(commands[2]);
+			if (commands[1] == "peasant")
+				ReturnShop()->BuyUnit(Creatures::peasant, count, ReturnPlayer());
+			else if (commands[1] == "archer")
+				ReturnShop()->BuyUnit(Creatures::archer, count, ReturnPlayer());
+			else if (commands[1] == "footman")
+				ReturnShop()->BuyUnit(Creatures::footman, count, ReturnPlayer());
+			else if (commands[1] == "griffon")
+				ReturnShop()->BuyUnit(Creatures::griffon, count, ReturnPlayer());
+		}
+		else {
+			cout << "Invalid input. Please try again." << endl << endl;
+		}
 	}
 	else if (action == "current gold")  // - изкарване на наличното състояние злато, което има играчът
 	{
+		if (ReturnPlayer() == nullptr){
+			cout << "No game in progress. " << endl << endl;
+			return;
+		}
 		cout << "Current gold in possession: " << ReturnPlayer()->GetGold() << endl;
 	}
 	else if (action == "exit")
 		exit = 1;
 	else
+	{
 		cout << "Wrong input!" << endl;
+		cout << endl;
+	}
 }
 
 void Game::ShopMenu()
@@ -72,6 +97,12 @@ void Game::ShopMenu()
 	while (!exit)
 	{
 		cout << "Shop menu." << endl;
+		cout << "Available commands: " << endl;
+		cout << "show units and prices" << endl;
+		cout << "buy" << endl;
+		cout << "current gold" << endl;
+		cout << "exit" << endl;
+		cout << endl;
 		getline(cin, action);
 		ShopMenuTakeAction(action, exit);
 	}
@@ -121,7 +152,10 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 	else if (action == "exit")
 		exit = 1;
 	else
+	{
 		cout << "Wrong input!" << endl;
+		cout << endl;
+	}
 }
 
 void Game::GameMenu()
@@ -136,7 +170,14 @@ void Game::GameMenu()
 			cout << "Your turn." << endl;
 		else
 			cout << "Enemy's turn." << endl;
-		cout << "Enter your desired actions: " << endl;
+		cout << "Enter your desired actions." << endl;
+		cout << "Available commands: " << endl;
+		cout << "move" << endl;
+		cout << "attack" << endl;
+		cout << "print current state" << endl;
+		cout << "end move" << endl;
+		cout << "exit" << endl;
+		cout << endl;
 		getline(cin, action);
 		GameMenuTakeAction(action, exit);
 	}
