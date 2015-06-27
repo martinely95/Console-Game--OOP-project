@@ -38,32 +38,32 @@ public:
 		Creature* playerUnitArcher = new Archer;
 		Creature* playerUnitGriffon = new Griffon;
 
-		std::pair<Creature*, int> p1(playerUnitPeasant, 0);
-		std::pair<Creature*, int> p2(playerUnitFootman, 0);
-		std::pair<Creature*, int> p3(playerUnitArcher, 0);
-		std::pair<Creature*, int> p4(playerUnitGriffon, 0);
+		std::pair<Creature*, int>* p1 = new std::pair<Creature*, int>(playerUnitPeasant, 0);
+		std::pair<Creature*, int>* p2 = new std::pair<Creature*, int>(playerUnitFootman, 0);
+		std::pair<Creature*, int>* p3 = new std::pair<Creature*, int>(playerUnitArcher, 0);
+		std::pair<Creature*, int>* p4 = new std::pair<Creature*, int>(playerUnitGriffon, 0);
 
 		units.push_back(p1);
 		units.push_back(p2);
 		units.push_back(p3);
 		units.push_back(p4);
 	}
-	Player(std::vector<pair<Creature*, int> > units, int gold=300) : units(units), gold(gold){};  // (units, gold=300 default)
+	Player(std::vector<pair<Creature*, int>* > units, int gold=300) : units(units), gold(gold){};  // (units, gold=300 default)
 	int GetGold() const{
 		return gold;
 	}
 	void SetGold(int g){
 		gold = g;
 	}
-	vector<pair<Creature*, int> >* ReturnUnits(){  // not a const; the units will be changed after being returned
+	vector<pair<Creature*, int>* >* ReturnUnits(){  // not a const; the units will be changed after being returned
 		return &(this->units);
 	}
-	void SetUnits(vector<pair<Creature*, int> > units){
+	void SetUnits(vector<pair<Creature*, int>* > units){
 		this->units = units;
 	}
 
 protected:
 	int gold;
-	std::vector<pair<Creature*, int> > units;
+	std::vector<pair<Creature*, int>* > units;
 };
 #endif

@@ -1,20 +1,11 @@
-﻿Build started 27.06.2015 08:31:49 ч..
+﻿Build started 27.06.2015 09:21:53 ч..
      1>Project "D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Console Game\Console Game.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp main.cpp
          Game.cpp
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(24): warning C4552: '+' : operator has no effect; expected operator with side-effect
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(25): warning C4552: '+' : operator has no effect; expected operator with side-effect
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(26): warning C4552: '+' : operator has no effect; expected operator with side-effect
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(27): warning C4552: '+' : operator has no effect; expected operator with side-effect
          Generating Code...
-         Compiling...
+         Skipping... (no relevant changes detected)
          main.cpp
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(24): warning C4552: '+' : operator has no effect; expected operator with side-effect
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(25): warning C4552: '+' : operator has no effect; expected operator with side-effect
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(26): warning C4552: '+' : operator has no effect; expected operator with side-effect
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\shop.h(27): warning C4552: '+' : operator has no effect; expected operator with side-effect
-         Generating Code...
        Link:
          D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Debug\Console Game.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Debug\Console Game.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Debug\Console Game.lib" /MACHINE:X86 Debug\Game.obj
          Debug\main.obj
@@ -23,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.61
+Time Elapsed 00:00:01.08

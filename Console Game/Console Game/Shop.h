@@ -21,11 +21,12 @@ public:
 	void BuyUnit(Creatures cr, int& count, Player* pl){
 		if (pl->GetGold() >= count*units[cr]){
 			switch (cr){
-				case peasant : pl->ReturnUnits()->at(0).second + count; break;
-				case footman:  pl->ReturnUnits()->at(1).second + count; break;
-				case archer:   pl->ReturnUnits()->at(2).second + count; break;
-				case griffon:  pl->ReturnUnits()->at(3).second + count; break;
+				case peasant : pl->ReturnUnits()->at(0)->second += count; break;
+				case footman:  pl->ReturnUnits()->at(1)->second += count; break;
+				case archer:   pl->ReturnUnits()->at(2)->second += count; break;
+				case griffon:  pl->ReturnUnits()->at(3)->second += count; break;
 			}
+			pl->SetGold(pl->GetGold() - count*units[cr]);
 			return;
 		}
 		cout << "Insufficient amount of gold." << endl << 

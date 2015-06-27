@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Units.h"
 #include "Shop.h"
+#include "Battlefield.h"
 
 using namespace std;
 
@@ -35,10 +36,10 @@ public:
 
 		m_enemy->SetGold(10);
 
-		std::vector<pair<Creature*, int> >* units1 = m_enemy->ReturnUnits();
-		units1->at(0).second = 1;
-		units1->at(2).second = 1;
-		units1->at(3).second = 1;
+		std::vector<pair<Creature*, int>* >* units1 = m_enemy->ReturnUnits();
+		units1->at(0)->second = 1;
+		units1->at(2)->second = 1;
+		units1->at(3)->second = 1;
 		/*units1.push_back(p1);
 		units1.push_back(p2);
 		units1.push_back(p3);
@@ -48,6 +49,7 @@ public:
 
 		m_player = new Player;
 		//m_player = &player;
+		field = Battlefield(m_player, m_enemy);
 	}
 	void MainMenu();
 	void MainMenuTakeAction(string& action, bool& exit);
@@ -87,6 +89,7 @@ protected:
 	Player* m_player;
 	Player* m_enemy;
 	Shop shop;
+	Battlefield field;
 	bool playerTurn = true;
 	bool endGame = false;
 	bool playerWins = false;
