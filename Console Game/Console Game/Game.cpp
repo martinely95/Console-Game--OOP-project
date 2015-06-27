@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #include "Split_StringToInt.h"
 #include "Game.h"
@@ -8,10 +9,16 @@ using namespace std;
 void Game::MainMenuTakeAction(string& action, bool& exit)
 {
 	std::vector<std::string> commands = split(action, ' ');
+	if (commands.size() < 1)
+		return;
 	if (action == "start game")  // -започване на игра
 	{
-		// not implemented yet
-		// pri startirane na igra, ako takava ve4e e zapo4nala prosto da q prodalji - 4oveka moje da se e varnal prosto zaradi magazina
+		if (this->endGame == true)	// ako zapo4vame nova igra
+		{
+			this->endGame = false;
+			RestartGame();
+		}
+		GameMenu();
 	}
 	else if (action == "shop")  // - посещаване на магазина
 	{
@@ -40,6 +47,7 @@ void Game::MainMenu()
 		cout << "exit" << endl;
 		cout << endl;
 		getline(cin, action);
+		cout << endl;
 		MainMenuTakeAction(action, exit);
 	}
 }
@@ -47,26 +55,38 @@ void Game::MainMenu()
 void Game::ShopMenuTakeAction(string& action, bool& exit)
 {
 	std::vector<std::string> commands = split(action, ' ');
+	if (commands.size() < 1)
+		return;
 	if (action == "show units and prices")  // изкарване на всички единици, които могат да бъдат закупени, както и техни цени
 	{
 		ReturnShop()->PrintUnitsCost();
 	}
 	else if (commands[0] == "buy")  // - закупуване на определен брой единици
 	{
-		if (ReturnPlayer() == nullptr){
+		if (ReturnPlayer() == nullptr || this->endGame == true){
 			cout << "No game in progress. " << endl << endl;
 			return;
 		}
 		if (commands.size() > 2) {
 			int count = StringToInt(commands[2]);
-			if (commands[1] == "peasant")
+			if (commands[1] == "peasant"){
 				ReturnShop()->BuyUnit(Creatures::peasant, count, ReturnPlayer());
-			else if (commands[1] == "archer")
+				cout << count << " peasant(s) purchased." << endl << endl;
+			}
+			else if (commands[1] == "archer"){
 				ReturnShop()->BuyUnit(Creatures::archer, count, ReturnPlayer());
-			else if (commands[1] == "footman")
+				cout << count << " archer(s) purchased." << endl << endl;
+			}
+			else if (commands[1] == "footman"){
 				ReturnShop()->BuyUnit(Creatures::footman, count, ReturnPlayer());
-			else if (commands[1] == "griffon")
+				cout << count << " footman(s) purchased." << endl << endl;
+			}
+			else if (commands[1] == "griffon"){
 				ReturnShop()->BuyUnit(Creatures::griffon, count, ReturnPlayer());
+				cout << count << " griffon(s) purchased." << endl << endl;
+			}
+			else
+				cout << "Invalid input. Please try again." << endl << endl;
 		}
 		else {
 			cout << "Invalid input. Please try again." << endl << endl;
@@ -74,11 +94,12 @@ void Game::ShopMenuTakeAction(string& action, bool& exit)
 	}
 	else if (action == "current gold")  // - изкарване на наличното състояние злато, което има играчът
 	{
-		if (ReturnPlayer() == nullptr){
+		if (ReturnPlayer() == nullptr || this->endGame == true){
 			cout << "No game in progress. " << endl << endl;
 			return;
 		}
 		cout << "Current gold in possession: " << ReturnPlayer()->GetGold() << endl;
+		cout << endl;
 	}
 	else if (action == "exit")
 		exit = 1;
@@ -104,6 +125,7 @@ void Game::ShopMenu()
 		cout << "exit" << endl;
 		cout << endl;
 		getline(cin, action);
+		cout << endl;
 		ShopMenuTakeAction(action, exit);
 	}
 }
@@ -111,15 +133,47 @@ void Game::ShopMenu()
 void Game::GameMenuTakeAction(string& action, bool& exit)
 {
 	std::vector<std::string> commands = split(action, ' ');
-	if (commands[0] == "move")  // - преместване на дадена единици на позиция на полето
+	if (commands.size() < 1)
+		return;
+	if (commands[0] == "move")
 	{
-		// not implemented yet
 		/*
-		- преместване на дадена единици на позиция на полето 
-		- да бъде реализирана чрез командата move <source coords> <destination coords>. 
-		Например ако на позиция (2,2) имаме грифон и искаме да го преместим на позиция (5,5), то командата ще е move (2,2) (5,5). 
+		- преместване на дадена единици на позиция на полето
+		- да бъде реализирана чрез командата move <source coords> <destination coords>.
+		Например ако на позиция (2,2) имаме грифон и искаме да го преместим на позиция (5,5), то командата ще е move (2,2) (5,5).
 		Тук трябва да се правят проверки дали destination coordinates не е заето от друга единица и дали единицата може да ходи толкова далеч
 		*/
+		int a[2], b[2];
+		a[0] = StringToInt(CharToString(commands[1][1]));
+		a[1] = StringToInt(CharToString(commands[1][3]));
+		b[0] = StringToInt(CharToString(commands[2][1]));
+		b[1] = StringToInt(CharToString(commands[2][3]));
+		Battlefield* bf = ReturnBattlefield();
+		double distance = sqrt(pow(a[0] - b[0], 2) + pow(a[1] - b[1], 2));
+		if (a[0] < 0 || a[0] > 9 || a[1] < 0 || a[1] > 9 || b[0] < 0 || b[0] > 9 || b[1] < 0 || b[1] > 9){
+			cout << "Invalid coordinates." << endl << endl;
+			return;
+		}
+		if ((*bf)[a[0]][a[1]] == nullptr){
+			cout << "There is nothing to move." << endl << endl;
+			return;
+		}
+		if ((*bf)[a[0]][a[1]]->second == 0){
+			cout << "There is nothing to move. (0 units)" << endl << endl;
+			return;
+		}
+		int allowedDistance = (*bf)[a[0]][a[1]]->first->GetStamina();
+		if (distance > allowedDistance){
+			cout << "Target coordinates are too far." << endl << endl;
+			return;
+		}
+		if ((*bf)[b[0]][b[1]] == nullptr){
+			(*bf)[b[0]][b[1]] = (*bf)[a[0]][a[1]];
+			(*bf)[a[0]][a[1]] = nullptr;
+			cout << "Successfully moved something from " << commands[1] << " to " << commands[2] << "." << endl << endl;
+		}
+		else
+			cout << "There is already something at the target coordinates!" << endl << endl;
 	}
 	else if (commands[0] == "attack")  // - нападане на противникова единица
 	{
@@ -179,6 +233,7 @@ void Game::GameMenu()
 		cout << "exit" << endl;
 		cout << endl;
 		getline(cin, action);
+		cout << endl;
 		GameMenuTakeAction(action, exit);
 	}
 }

@@ -33,4 +33,12 @@ int StringToInt(string string)
 	return i;
 }
 
+string CharToString(char a){
+	std::string s;
+	std::stringstream ss;
+	ss << a;
+	ss >> s;
+	return s;
+}
+
 #endif

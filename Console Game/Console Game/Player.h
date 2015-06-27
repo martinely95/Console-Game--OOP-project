@@ -13,26 +13,6 @@ public:
 	Player(){  // (empty units, gold always 300)
 		gold = 300;
 
-		/*Peasant playerUnitPeasant;
-		Footman playerUnitFootman;
-		Archer playerUnitArcher;
-		Griffon playerUnitGriffon;
-
-		Creature* creature1 = &playerUnitPeasant;
-		Creature* creature2 = &playerUnitFootman;
-		Creature* creature3 = &playerUnitArcher;
-		Creature* creature4 = &playerUnitGriffon;
-
-		std::pair<Creature*, int> p1(creature1, 0);
-		std::pair<Creature*, int> p2(creature2, 0);
-		std::pair<Creature*, int> p3(creature3, 0);
-		std::pair<Creature*, int> p4(creature4, 0);
-
-		units.push_back(p1);
-		units.push_back(p2);
-		units.push_back(p3);
-		units.push_back(p4);*/
-
 		Creature* playerUnitPeasant = new Peasant;
 		Creature* playerUnitFootman = new Footman;
 		Creature* playerUnitArcher = new Archer;
@@ -61,7 +41,10 @@ public:
 	void SetUnits(vector<pair<Creature*, int>* > units){
 		this->units = units;
 	}
-
+	virtual ~Player(){
+		for (int i = 0; i < 4; i++)
+			delete this->ReturnUnits()->at(i);
+	}
 protected:
 	int gold;
 	std::vector<pair<Creature*, int>* > units;

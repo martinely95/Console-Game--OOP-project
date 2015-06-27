@@ -32,13 +32,13 @@ public:
 		cout << "Insufficient amount of gold." << endl << 
 			"Gold required: " << count*units[cr] << endl <<
 			"Current gold possessed: " << pl->GetGold() << endl <<
-			count*units[cr] - pl->GetGold() << "more gold is necessary." << endl;
+			count*units[cr] - pl->GetGold() << " more gold is necessary." << endl << endl;
 	}
 	void PrintUnitsCost() const{
 		cout << "Peasant - 30g" << endl <<
 			"Footman - 90g" << endl <<
 			"Archer - 50g" << endl <<
-			"Griffon - 150g" << endl;
+			"Griffon - 150g" << endl << endl;
 	}
 
 protected:

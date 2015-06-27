@@ -16,39 +16,16 @@ class Game{
 public:
 	Game(){  // constructor
 		shop = Shop();
+
 		m_enemy = new Player;
-		//Player enemy = Player();
-		//m_enemy = &enemy;
-		/*Creature* playerUnitPeasant = new Peasant;
-		Creature* playerUnitFootman = new Footman;
-		Creature* playerUnitArcher = new Archer;
-		Creature* playerUnitGriffon = new Griffon;*/
-
-		/*Creature* creature1 = playerUnitPeasant;
-		Creature* creature2 = playerUnitFootman;
-		Creature* creature3 = playerUnitArcher;
-		Creature* creature4 = playerUnitGriffon;*/
-
-		/*std::pair<Creature*, int> p1(playerUnitPeasant, 1);
-		std::pair<Creature*, int> p2(playerUnitFootman, 0);
-		std::pair<Creature*, int> p3(playerUnitArcher, 1);
-		std::pair<Creature*, int> p4(playerUnitGriffon, 1);*/
-
-		m_enemy->SetGold(10);
-
 		std::vector<pair<Creature*, int>* >* units1 = m_enemy->ReturnUnits();
 		units1->at(0)->second = 1;
 		units1->at(2)->second = 1;
 		units1->at(3)->second = 1;
-		/*units1.push_back(p1);
-		units1.push_back(p2);
-		units1.push_back(p3);
-		units1.push_back(p4);
-		m_enemy->SetUnits(units1);
-		m_enemy = &enemy;*/
+		m_enemy->SetGold(10);
 
 		m_player = new Player;
-		//m_player = &player;
+
 		field = Battlefield(m_player, m_enemy);
 	}
 	void MainMenu();
@@ -58,6 +35,32 @@ public:
 	void GameMenu();
 	void GameMenuTakeAction(string& action, bool& exit);
 
+	virtual ~Game(){
+		delete m_enemy;
+		delete m_player;
+		// деструктор на player
+		//деструктор на pair - те във units na player
+		//	голямата 3ка - samo toi ostana
+			//деструктурите да са виртуални
+
+	}
+
+	void RestartGame(){
+		delete m_enemy;
+		delete m_player;
+		shop = Shop();
+
+		m_enemy = new Player;
+		std::vector<pair<Creature*, int>* >* units1 = m_enemy->ReturnUnits();
+		units1->at(0)->second = 1;
+		units1->at(2)->second = 1;
+		units1->at(3)->second = 1;
+		m_enemy->SetGold(10);
+
+		m_player = new Player;
+
+		field = Battlefield(m_player, m_enemy);
+	}
 	void EnemyTurn(){
 
 		//implement artificial intelligence
@@ -78,6 +81,10 @@ public:
 		MainMenu();
 	}
 
+	Battlefield* ReturnBattlefield(){
+		return &(this->field);
+	}
+
 	Shop* ReturnShop(){
 		return &(this->shop);
 	}
@@ -91,7 +98,7 @@ protected:
 	Shop shop;
 	Battlefield field;
 	bool playerTurn = true;
-	bool endGame = false;
+	bool endGame = true;
 	bool playerWins = false;
 };
 #endif
