@@ -13,7 +13,7 @@ enum Creatures {
 class Creature{
 public:
 	Creature() : damage(1), defense(1), health(5), mana(3), stamina(3), critChance(1), attackRange(1), type(Creatures::nothing), enemyUnit(" "){};
-	Creature(int damage, int defense, int health, int mana, int stamina, int critChance, int attackRange, Creatures t, std::string e) : 
+	Creature(int damage, int defense, double health, int mana, int stamina, int critChance, int attackRange, Creatures t, std::string e) : 
 		damage(damage), defense(defense), health(health), mana(mana), stamina(stamina), critChance(critChance), attackRange(attackRange), type(t), enemyUnit(e){};
 	
 	int GetDamage() const{
@@ -76,10 +76,10 @@ public:
 protected:
 	int damage;
 	int defense;  // defense определя с колко ще бъде намалена противникова атака
-	int	health;
+	double	health;
 	int mana;
 	int stamina;  // stamina определя колко квадратчета напред може да се придвижи дадено същество
-	int critChance;  // critChance определя възможността съществото да нанесе двоен damage при атака
+	int critChance;  // critChance определя възможността съществото да нанесе двоен damage при атака TODO:da go napravq v %
 	int attackRange;  // определя колко е обхвата на атаката
 	Creatures type;
 	std::string enemyUnit;

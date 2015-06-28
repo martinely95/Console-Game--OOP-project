@@ -69,10 +69,8 @@ public:
 
 		field = Battlefield(m_player, m_enemy);
 	}
-	void EnemyTurn(){
 
-		//implement artificial intelligence
-	}
+	void EnemyTurn();
 
 	void EndGame(){
 		// // tuk nai veroqtno 6te se proverqva dali nqkoi ima ostanali edinici i 

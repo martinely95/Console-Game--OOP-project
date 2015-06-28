@@ -153,27 +153,28 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 		b[0] = StringToInt(CharToString(commands[2][1]));
 		b[1] = StringToInt(CharToString(commands[2][3]));
 		Battlefield* bf = ReturnBattlefield();
+		std::pair<Creature*, int> *targetCoords = (*bf)[b[0]][b[1]], *sourceCoords = (*bf)[a[0]][a[1]];
 		double distance = sqrt(pow(a[0] - b[0], 2) + pow(a[1] - b[1], 2));
 		if (a[0] < 0 || a[0] > 9 || a[1] < 0 || a[1] > 9 || b[0] < 0 || b[0] > 9 || b[1] < 0 || b[1] > 9){
 			cout << "Invalid coordinates." << endl << endl;
 			return;
 		}
-		if ((*bf)[a[0]][a[1]] == nullptr){
+		if (sourceCoords == nullptr){
 			cout << "There is nothing to move." << endl << endl;
 			return;
 		}
-		if ((*bf)[a[0]][a[1]]->second == 0){
+		if (sourceCoords->second == 0){
 			cout << "There is nothing to move. (0 units)" << endl << endl;
 			return;
 		}
-		int allowedDistance = (*bf)[a[0]][a[1]]->first->GetStamina();
+		int allowedDistance = sourceCoords->first->GetStamina();
 		if (distance > allowedDistance){
 			cout << "Target coordinates are too far." << endl << endl;
 			return;
 		}
-		if ((*bf)[b[0]][b[1]] == nullptr){
-			(*bf)[b[0]][b[1]] = (*bf)[a[0]][a[1]];
-			(*bf)[a[0]][a[1]] = nullptr;
+		if (targetCoords == nullptr){
+			targetCoords = sourceCoords;
+			sourceCoords = nullptr;
 			cout << "Successfully moved something from " << commands[1] << " to " << commands[2] << "." << endl << endl;
 		}
 		else
@@ -181,6 +182,53 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 	}
 	else if (commands[0] == "attack")  // - нападане на противникова единица
 	{
+		int a[2], b[2];
+		a[0] = StringToInt(CharToString(commands[1][1]));
+		a[1] = StringToInt(CharToString(commands[1][3]));
+		b[0] = StringToInt(CharToString(commands[2][1]));
+		b[1] = StringToInt(CharToString(commands[2][3]));
+		Battlefield* bf = ReturnBattlefield();
+		std::pair<Creature*, int> *targetCoords = (*bf)[b[0]][b[1]], *sourceCoords = (*bf)[a[0]][a[1]];
+		double distance = sqrt(pow(a[0] - b[0], 2) + pow(a[1] - b[1], 2));
+		if (a[0] < 0 || a[0] > 9 || a[1] < 0 || a[1] > 9 || b[0] < 0 || b[0] > 9 || b[1] < 0 || b[1] > 9){
+			cout << "Invalid coordinates." << endl << endl;
+			return;
+		}
+		if (sourceCoords == nullptr){
+			cout << "There is nothing to attack with." << endl << endl;
+			return;
+		}
+		if (sourceCoords->second == 0){
+			cout << "There is nothing to attack with. (0 units)" << endl << endl;
+			return;
+		}
+		int allowedDistance = sourceCoords->first->GetAttackRange();
+		if (distance > allowedDistance){
+			cout << "Target coordinates are too far." << endl << endl;
+			return;
+		}
+		if (targetCoords != nullptr){
+			//ednovremenno 6te badat atakuvani vsi4ki i vsi4ki 6te imat = health
+			double attackPower = sourceCoords->first->GetDamage() * sourceCoords->second;
+			double defensePower = targetCoords->first->GetDefense() * targetCoords->second;
+			double damagePerUnit = attackPower / defensePower;
+			unsigned short i = 0;
+			while (i < targetCoords->second){
+				double newHealth = targetCoords->first->GetHealth() - damagePerUnit;
+				if (newHealth > 0)
+					targetCoords->first->SetHealth(newHealth);
+				else{
+					targetCoords->second = 0;					
+				}
+				i++;
+			//TODO: checks
+			}
+			cout << "Successfully attacked something from " << commands[1] << " at " << commands[2] << "." << endl << endl;
+		}
+		else{
+			cout << "There is nothing to aim at." << endl << endl;
+			return;
+		}
 		// not implemented yet
 		/*
 		-командата да е attack <source coords> <destination coords>.
@@ -213,7 +261,7 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 	}
 	else if (action == "end move")  // -приключване на текущия ход.
 	{
-		// not implemented yet
+		EnemyTurn();
 		/*
 		Когато приключим хода, противниковият играч трябва да изиграе хода си и да разположи своите единици, след което отново ние сме наред.
 		*/
@@ -251,4 +299,8 @@ void Game::GameMenu()
 		cout << endl;
 		GameMenuTakeAction(action, exit);
 	}
+}
+
+void Game::EnemyTurn(){
+	// not implemented yet; artificial intelligence
 }
