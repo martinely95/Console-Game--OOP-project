@@ -1,6 +1,9 @@
 #include <vector>
 #include <iostream>
 #include <tuple>
+#include <fstream>
+#include <map>
+#include <string>
 
 #include "Units.h"
 
@@ -33,6 +36,69 @@ public:
 		this->field[9][6] = enemy->ReturnUnits()->at(2);
 		this->field[9][9] = enemy->ReturnUnits()->at(3);
 	}
+	void PrintBattlefield(std::string targetPath = "states\\", std::string targetFile = "state.txt", bool inFile = true){
+		targetFile = targetPath + targetFile;
+		std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+		std::fstream file;
+		if (inFile){
+			file.open(targetFile.c_str(), std::fstream::out | std::fstream::trunc);
+			std::cout.rdbuf(file.rdbuf()); //redirect std::cout to state.txt!
+		}	
+		if (file.is_open() || !inFile) {
+			std::map<std::string, int> units;
+			for (int y = 9; y >= 0; y--){
+				for (int x = 0; x < 10; x++){
+					cout << "|";
+					if ((field[x][y] != nullptr)){
+						std::string ownership = field[x][y]->first->GetOwnership();
+						int count = field[x][y]->second;
+						switch (field[x][y]->first->GetType()){
+						case Creatures::archer: 
+							cout << ownership << "A";
+							units[ownership + "A"] += count; break;
+						case Creatures::footman: 
+							cout << ownership << "F"; 
+							units[ownership + "F"] += count; break;
+						case Creatures::griffon: 
+							cout << ownership << "G"; 
+							units[ownership + "G"] += count; break;
+						case Creatures::hero: 
+							cout << ownership << "errorHero"; 
+							units[ownership + "H"] += count; break;
+						case Creatures::nothing: 
+							cout << ownership << "errorNothing"; 
+							units[ownership + "Nothing"] += count; break;
+						case Creatures::peasant: 
+							cout << ownership << "P"; 
+							units[ownership + "P"] += count; break;
+						default: 
+							cout << ownership << "error"; 
+							units[ownership + "Error"] += count;
+						}
+					}
+					else
+						cout << "  ";
+				}
+				cout << "|" << endl;
+			}
+
+			typedef std::map<std::string, int>::iterator it_type;
+			for (it_type iterator = units.begin(); iterator != units.end(); iterator++) {
+				cout << iterator->first << " " << iterator->second << " ";
+				// iterator->first = key
+				// iterator->second = value
+			}
+			cout << endl << endl;
+			file.close();
+		}
+		else{
+			cout << "Unable to open file!" << endl << endl;
+			std::cout.rdbuf(coutbuf);
+		}
+		std::cout.rdbuf(coutbuf); //reset to standard output again
+
+	}
+
 	std::vector<std::pair<Creature*, int>* >& operator[](int id){
 		try {
 			return field[id];

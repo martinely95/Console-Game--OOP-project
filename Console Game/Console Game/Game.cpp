@@ -189,23 +189,20 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 		което е на 1 единица разстояние(например(3, 3)) и ще нападнем протовниковия Footman.
 		*/
 	}
-	else if (action == "print current state")  // - принтиране във файл текущото състояние на полето
+	else if (action.substr(0, 19) == "print current state")  // - принтиране във файл текущото състояние на полето
 	{
 		std::string targetPath = "states\\";
-		std::string targetFile = targetPath + "state.txt";
+		std::string targetFile = "state.txt";  // "states\\state.txt"
 		
 		CreateDirectory(targetPath.c_str(), NULL);
-		std::fstream file;
-		file.open(targetFile.c_str(), std::fstream::out | std::fstream::trunc);
-		if (file.is_open()) {
-			file << " more lorem ipsum";
-
-			file.close();
+		Battlefield* bf = ReturnBattlefield();
+		bool inFile = true;
+		if (action.size() == 21){
+			inFile = bool(StringToInt(action.substr(20)));
 		}
-		else
-			cout << "Unable to open file!" << endl << endl;
-
-		// not implemented yet
+		bf->PrintBattlefield(targetPath, targetFile, inFile);
+		if (inFile)
+			cout << "Current state is printed in folder\\file: states\\state.txt" << endl << endl;
 		/*
 		- как са разположени единиците:
 		- нашите единици да бъдат отбелязани така: P за Peasant, A за Archer, F за Footman, G за Griffon, H за Hero.

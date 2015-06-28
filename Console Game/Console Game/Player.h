@@ -42,7 +42,9 @@ public:
 		this->units = units;
 	}
 	virtual ~Player(){
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < this->ReturnUnits()->size(); i++)  // deleting units
+			delete this->ReturnUnits()->at(i)->first;
+		for (int i = 0; i < this->ReturnUnits()->size(); i++)  // deleting pairs
 			delete this->ReturnUnits()->at(i);
 	}
 protected:
