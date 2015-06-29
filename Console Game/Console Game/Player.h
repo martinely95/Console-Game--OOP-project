@@ -40,7 +40,7 @@ public:
 	void SetGold(int g){
 		gold = g;
 	}
-	std::vector<std::pair<int, int> >* GetUnitsCoords(){
+	std::vector<std::pair<int, int> >* ReturnUnitsCoords(){
 		return &unitsCoords;
 	}
 	vector<pair<Creature*, int>* >* ReturnUnits(){  // not a const; the units will be changed after being returned

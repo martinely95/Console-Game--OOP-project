@@ -172,6 +172,9 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			*targetCoords = *sourceCoords;
 			*sourceCoords = nullptr;
 			cout << "Successfully moved something from " << commands[1] << " to " << commands[2] << "." << endl << endl;
+			//changing the coordinates in the player:
+			ReturnPlayer()->ReturnUnitsCoords()->at((*targetCoords)->at(0)->GetType()).first = b[0];
+			ReturnPlayer()->ReturnUnitsCoords()->at((*targetCoords)->at(0)->GetType()).second = b[1];
 		}
 		else
 			cout << "There is already something at the target coordinates!" << endl << endl;

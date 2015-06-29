@@ -21,7 +21,7 @@ public:
 	}
 	void BuyUnit(Creatures cr, int& count, Player* pl, Battlefield* bf){
 		if (pl->GetGold() >= count*units[cr]){
-			std::vector<std::pair<int, int> >* unitsCoords = pl->GetUnitsCoords();
+			std::vector<std::pair<int, int> >* unitsCoords = pl->ReturnUnitsCoords();
 			switch (cr){
 				case peasant : 
 					for (int i = 0; i < count; i++){
