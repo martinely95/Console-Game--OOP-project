@@ -2,6 +2,7 @@
 #include <vector>
 #include <tuple>
 
+#include "Battlefield.h"
 #include "Player.h"
 #include "Units.h"
 
@@ -18,13 +19,46 @@ public:
 		units[archer] = 50;
 		units[griffon] = 150;
 	}
-	void BuyUnit(Creatures cr, int& count, Player* pl){
+	void BuyUnit(Creatures cr, int& count, Player* pl, Battlefield* bf){
 		if (pl->GetGold() >= count*units[cr]){
+			std::vector<std::pair<int, int> >* unitsCoords = pl->GetUnitsCoords();
 			switch (cr){
-				case peasant : pl->ReturnUnits()->at(0)->second += count; break;
-				case footman:  pl->ReturnUnits()->at(1)->second += count; break;
-				case archer:   pl->ReturnUnits()->at(2)->second += count; break;
-				case griffon:  pl->ReturnUnits()->at(3)->second += count; break;
+				case peasant : 
+					for (int i = 0; i < count; i++){
+						Creature* playerUnitPeasant = new Peasant;
+						std::vector<Creature*>* currPos = (*bf)[unitsCoords->at(0).first][unitsCoords->at(0).second];
+						currPos->push_back(playerUnitPeasant);
+					}					
+					pl->ReturnUnits()->at(0)->second += count;
+					cout << count << " peasant(s) purchased." << endl << endl;
+					break;
+				case footman:  
+					for (int i = 0; i < count; i++){
+						Creature* playerUnitFootman = new Footman;
+						std::vector<Creature*>* currPos = (*bf)[unitsCoords->at(1).first][unitsCoords->at(1).second];
+						currPos->push_back(playerUnitFootman);
+					}
+					pl->ReturnUnits()->at(1)->second += count; 
+					cout << count << " footman(s) purchased." << endl << endl;
+					break;
+				case archer:   
+					for (int i = 0; i < count; i++){
+						Creature* playerUnitArcher = new Archer;
+						std::vector<Creature*>* currPos = (*bf)[unitsCoords->at(2).first][unitsCoords->at(2).second];
+						currPos->push_back(playerUnitArcher);
+					}
+					pl->ReturnUnits()->at(2)->second += count; 
+					cout << count << " archer(s) purchased." << endl << endl;
+					break;
+				case griffon:  
+					for (int i = 0; i < count; i++){
+						Creature* playerUnitGriffon = new Griffon;
+						std::vector<Creature*>* currPos = (*bf)[unitsCoords->at(3).first][unitsCoords->at(3).second];
+						currPos->push_back(playerUnitGriffon);
+					}
+					pl->ReturnUnits()->at(3)->second += count; 
+					cout << count << " griffon(s) purchased." << endl << endl;
+					break;
 			}
 			pl->SetGold(pl->GetGold() - count*units[cr]);
 			return;

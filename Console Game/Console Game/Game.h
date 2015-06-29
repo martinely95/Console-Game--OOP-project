@@ -17,7 +17,7 @@ public:
 	Game(){  // constructor
 		shop = Shop();
 
-		m_enemy = new Player;
+		m_enemy = new Player(true);
 		std::vector<pair<Creature*, int>* >* units1 = m_enemy->ReturnUnits();
 		units1->at(0)->second = 1;
 		units1->at(2)->second = 1;
@@ -54,7 +54,7 @@ public:
 		delete m_player;
 		shop = Shop();
 
-		m_enemy = new Player;
+		m_enemy = new Player(true);
 		std::vector<pair<Creature*, int>* >* units1 = m_enemy->ReturnUnits();
 		units1->at(0)->second = 1;
 		units1->at(2)->second = 1;
@@ -90,12 +90,14 @@ public:
 	Battlefield* ReturnBattlefield(){
 		return &(this->field);
 	}
-
 	Shop* ReturnShop(){
 		return &(this->shop);
 	}
 	Player* ReturnPlayer(){
 		return this->m_player;
+	}
+	Player* ReturnEnemy(){
+		return this->m_enemy;
 	}
 
 protected:

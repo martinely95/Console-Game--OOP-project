@@ -22,7 +22,7 @@ public:
 	int GetDefense() const{
 		return defense;
 	}
-	int GetHealth() const{
+	double GetHealth() const{
 		return health;
 	}
 	int GetMana() const{
@@ -54,7 +54,7 @@ public:
 	void SetDefense(int a){
 		defense = a;
 	}
-	void SetHealth(int a){
+	void SetHealth(double a){
 		health = a;
 	}
 	void SetMana(int a){

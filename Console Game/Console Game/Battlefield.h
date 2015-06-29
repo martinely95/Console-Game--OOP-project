@@ -16,25 +16,93 @@ class Battlefield{
 public:
 	Battlefield(){
 		for (int i = 0; i < SIZE_X; i++){
-			vector<std::pair<Creature*, int>* > row(SIZE_Y);
+			std::vector<std::vector<Creature*>* > row(SIZE_Y);
 			this->field.push_back(row);
+		}
+		for (int i = 0; i < 10; i += 3){
+			std::pair<int, int> coords(0, i);
+			this->initCoords.push_back(coords);
+		}
+		for (int i = 0; i < 10; i += 3){
+			std::pair<int, int> coords(9, i);
+			this->initCoords.push_back(coords);
 		}
 	}
-	Battlefield(Player* me, Player* enemy){
-		for (int i = 0; i < SIZE_X; i++){
-			vector<std::pair<Creature*, int>* > row(SIZE_Y);
-			this->field.push_back(row);
+	Battlefield(Player* me, Player* enemy) : Battlefield() {
+		//initially the player has empty units
+		for (int i = 0; i < 4; i++){
+			std::vector<Creature*>* units = new std::vector<Creature*>();
+			int x = initCoords[i].first;
+			int y = initCoords[i].second;
+			this->field[x][y] = units;
+			int count = me->ReturnUnits()->at(i)->second;
+			Creatures type = me->ReturnUnits()->at(i)->first->GetType();
+			if (count){
+				for (int i = 0; i < count; i++){
+					switch (type){
+						case Creatures::peasant:{
+							Creature* playerUnitPeasant = new Peasant;
+							this->field[x][y]->push_back(playerUnitPeasant);
+							break;
+						}
+						case Creatures::footman:{
+							Creature* playerUnitFootman = new Footman;
+							this->field[x][y]->push_back(playerUnitFootman);
+							break;
+						}
+						case Creatures::archer:{
+							Creature* playerUnitArcher = new Archer;
+							this->field[x][y]->push_back(playerUnitArcher);
+							break;
+						}
+						case Creatures::griffon:{
+							Creature* playerUnitGriffon = new Griffon;
+							this->field[x][y]->push_back(playerUnitGriffon);
+							break;
+						}
+					}
+				}
+			}
 		}
-
-		this->field[0][0] = me->ReturnUnits()->at(0);
-		this->field[0][3] = me->ReturnUnits()->at(1);
-		this->field[0][6] = me->ReturnUnits()->at(2);
-		this->field[0][9] = me->ReturnUnits()->at(3);
-
-		this->field[9][0] = enemy->ReturnUnits()->at(0);
-		this->field[9][3] = enemy->ReturnUnits()->at(1);
-		this->field[9][6] = enemy->ReturnUnits()->at(2);
-		this->field[9][9] = enemy->ReturnUnits()->at(3);
+		//initializing enemy units:
+		for (int i = 4; i < 8; i++){
+			std::vector<Creature*>* units = new std::vector<Creature*>();
+			int x = initCoords[i].first;
+			int y = initCoords[i].second;
+			this->field[x][y] = units;
+			int count = enemy->ReturnUnits()->at(i - 4)->second;
+			Creatures type = enemy->ReturnUnits()->at(i - 4)->first->GetType();
+			if (count){
+				for (int i = 0; i < count; i++){
+					switch (type){
+						case Creatures::peasant:{
+							Creature* playerUnitPeasant = new Peasant;
+							playerUnitPeasant->SetOwnership("E");
+							this->field[x][y]->push_back(playerUnitPeasant);
+							break;
+						}
+						case Creatures::footman:{
+							Creature* playerUnitFootman = new Footman;
+							playerUnitFootman->SetOwnership("E");
+							this->field[x][y]->push_back(playerUnitFootman);
+							break;
+						}
+						case Creatures::archer:{
+							Creature* playerUnitArcher = new Archer;
+							playerUnitArcher->SetOwnership("E");
+							this->field[x][y]->push_back(playerUnitArcher);
+							break;
+						}
+						case Creatures::griffon:{
+							Creature* playerUnitGriffon = new Griffon;
+							playerUnitGriffon->SetOwnership("E");
+							this->field[x][y]->push_back(playerUnitGriffon);
+							break;
+						}
+					}
+				}				 
+			}
+		}
 	}
 	void PrintBattlefield(std::string targetPath = "states\\", std::string targetFile = "state.txt", bool inFile = true){
 		targetFile = targetPath + targetFile;
@@ -49,10 +117,10 @@ public:
 			for (int y = 9; y >= 0; y--){
 				for (int x = 0; x < 10; x++){
 					cout << "|";
-					if ((field[x][y] != nullptr)){
-						std::string ownership = field[x][y]->first->GetOwnership();
-						int count = field[x][y]->second;
-						switch (field[x][y]->first->GetType()){
+					if ((field[x][y] != nullptr && field[x][y]->size() > 0)){
+						std::string ownership = field[x][y]->at(0)->GetOwnership();
+						int count = field[x][y]->size();
+						switch (field[x][y]->at(0)->GetType()){
 						case Creatures::archer: 
 							cout << ownership << "A";
 							units[ownership + "A"] += count; break;
@@ -99,7 +167,7 @@ public:
 
 	}
 
-	std::vector<std::pair<Creature*, int>* >& operator[](int id){
+	std::vector<std::vector<Creature*>* >& operator[](int id){
 		try {
 			return field[id];
 		}
@@ -111,7 +179,9 @@ public:
 protected:
 	int SIZE_X = 10;
 	int SIZE_Y = 10;
-	std::vector<std::vector<std::pair<Creature*, int>* > > field; // на 1 квадратче се разползагат всички единици от 1 тип за съответен играч
+	//std::vector<std::vector<std::pair<Creature*, int>* > > field; // на 1 квадратче се разползагат всички единици от 1 тип за съответен играч
+	std::vector<std::vector<std::vector<Creature*>* > > field; // на 1 квадратче се разползагат всички единици от 1 тип за съответен играч
+	std::vector<std::pair<int, int> > initCoords;
 };
 
 #endif

@@ -74,20 +74,16 @@ void Game::ShopMenuTakeAction(string& action, bool& exit)
 		if (commands.size() > 2) {
 			int count = StringToInt(commands[2]);
 			if (commands[1] == "peasant"){
-				ReturnShop()->BuyUnit(Creatures::peasant, count, ReturnPlayer());
-				cout << count << " peasant(s) purchased." << endl << endl;
+				ReturnShop()->BuyUnit(Creatures::peasant, count, ReturnPlayer(), ReturnBattlefield());
 			}
 			else if (commands[1] == "archer"){
-				ReturnShop()->BuyUnit(Creatures::archer, count, ReturnPlayer());
-				cout << count << " archer(s) purchased." << endl << endl;
+				ReturnShop()->BuyUnit(Creatures::archer, count, ReturnPlayer(), ReturnBattlefield());
 			}
 			else if (commands[1] == "footman"){
-				ReturnShop()->BuyUnit(Creatures::footman, count, ReturnPlayer());
-				cout << count << " footman(s) purchased." << endl << endl;
+				ReturnShop()->BuyUnit(Creatures::footman, count, ReturnPlayer(), ReturnBattlefield());
 			}
 			else if (commands[1] == "griffon"){
-				ReturnShop()->BuyUnit(Creatures::griffon, count, ReturnPlayer());
-				cout << count << " griffon(s) purchased." << endl << endl;
+				ReturnShop()->BuyUnit(Creatures::griffon, count, ReturnPlayer(), ReturnBattlefield());
 			}
 			else
 				cout << "Invalid input. Please try again." << endl << endl;
@@ -153,7 +149,7 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 		b[0] = StringToInt(CharToString(commands[2][1]));
 		b[1] = StringToInt(CharToString(commands[2][3]));
 		Battlefield* bf = ReturnBattlefield();
-		std::pair<Creature*, int> *targetCoords = (*bf)[b[0]][b[1]], *sourceCoords = (*bf)[a[0]][a[1]];
+		std::vector<Creature*> **targetCoords = &(*bf)[b[0]][b[1]], **sourceCoords = &(*bf)[a[0]][a[1]];
 		double distance = sqrt(pow(a[0] - b[0], 2) + pow(a[1] - b[1], 2));
 		if (a[0] < 0 || a[0] > 9 || a[1] < 0 || a[1] > 9 || b[0] < 0 || b[0] > 9 || b[1] < 0 || b[1] > 9){
 			cout << "Invalid coordinates." << endl << endl;
@@ -163,18 +159,18 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			cout << "There is nothing to move." << endl << endl;
 			return;
 		}
-		if (sourceCoords->second == 0){
+		if ((*sourceCoords)->size() == 0){
 			cout << "There is nothing to move. (0 units)" << endl << endl;
 			return;
 		}
-		int allowedDistance = sourceCoords->first->GetStamina();
+		int allowedDistance = (*sourceCoords)->at(0)->GetStamina();
 		if (distance > allowedDistance){
 			cout << "Target coordinates are too far." << endl << endl;
 			return;
 		}
-		if (targetCoords == nullptr){
-			targetCoords = sourceCoords;
-			sourceCoords = nullptr;
+		if (*targetCoords == nullptr){
+			*targetCoords = *sourceCoords;
+			*sourceCoords = nullptr;
 			cout << "Successfully moved something from " << commands[1] << " to " << commands[2] << "." << endl << endl;
 		}
 		else
@@ -188,7 +184,7 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 		b[0] = StringToInt(CharToString(commands[2][1]));
 		b[1] = StringToInt(CharToString(commands[2][3]));
 		Battlefield* bf = ReturnBattlefield();
-		std::pair<Creature*, int> *targetCoords = (*bf)[b[0]][b[1]], *sourceCoords = (*bf)[a[0]][a[1]];
+		std::vector<Creature*> **targetCoords = &(*bf)[b[0]][b[1]], **sourceCoords = &(*bf)[a[0]][a[1]];
 		double distance = sqrt(pow(a[0] - b[0], 2) + pow(a[1] - b[1], 2));
 		if (a[0] < 0 || a[0] > 9 || a[1] < 0 || a[1] > 9 || b[0] < 0 || b[0] > 9 || b[1] < 0 || b[1] > 9){
 			cout << "Invalid coordinates." << endl << endl;
@@ -198,29 +194,32 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			cout << "There is nothing to attack with." << endl << endl;
 			return;
 		}
-		if (sourceCoords->second == 0){
+		if ((*sourceCoords)->size() == 0){
 			cout << "There is nothing to attack with. (0 units)" << endl << endl;
 			return;
 		}
-		int allowedDistance = sourceCoords->first->GetAttackRange();
+		int allowedDistance = (*sourceCoords)->at(0)->GetAttackRange();
 		if (distance > allowedDistance){
 			cout << "Target coordinates are too far." << endl << endl;
 			return;
 		}
 		if (targetCoords != nullptr){
 			//ednovremenno 6te badat atakuvani vsi4ki i vsi4ki 6te imat = health
-			double attackPower = sourceCoords->first->GetDamage() * sourceCoords->second;
-			double defensePower = targetCoords->first->GetDefense() * targetCoords->second;
-			double damagePerUnit = attackPower / defensePower;
+			double attackPower = (*sourceCoords)->at(0)->GetDamage() * (*sourceCoords)->size();
+			double defensePower = (*targetCoords)->at(0)->GetDefense() * (*targetCoords)->size();
+			double damagePerUnit = (attackPower - defensePower) / (*targetCoords)->size();
 			unsigned short i = 0;
-			while (i < targetCoords->second){
-				double newHealth = targetCoords->first->GetHealth() - damagePerUnit;
+			while (i < (*targetCoords)->size()){
+				double newHealth = (*targetCoords)->at(i)->GetHealth() - damagePerUnit;
 				if (newHealth > 0)
-					targetCoords->first->SetHealth(newHealth);
+					(*targetCoords)->at(i)->SetHealth(newHealth);
 				else{
-					targetCoords->second = 0;					
+					delete (*targetCoords)->at(i);	
+					(*targetCoords)->erase((*targetCoords)->begin() + i);
+					i--;
 				}
 				i++;
+				//TODO: trqbva i v brojkata v saotvetniq igra4 da namalqva
 			//TODO: checks
 			}
 			cout << "Successfully attacked something from " << commands[1] << " at " << commands[2] << "." << endl << endl;

@@ -10,7 +10,7 @@ using namespace std;
 
 class Player{
 public:
-	Player(){  // (empty units, gold always 300)
+	Player(bool enemy = false){  // (empty units, gold always 300)
 		gold = 300;
 
 		Creature* playerUnitPeasant = new Peasant;
@@ -27,13 +27,21 @@ public:
 		units.push_back(p2);
 		units.push_back(p3);
 		units.push_back(p4);
+
+		for (int i = 0; i < 10; i += 3){
+			std::pair<int, int> coords(int(enemy)*9, i);
+			this->unitsCoords.push_back(coords);
+		}
 	}
-	Player(std::vector<pair<Creature*, int>* > units, int gold=300) : units(units), gold(gold){};  // (units, gold=300 default)
+	Player(std::vector<pair<Creature*, int>* > units, std::vector<std::pair<int, int> > unitsCoords, int gold = 300) : units(units), unitsCoords(unitsCoords), gold(gold){};  // (units, gold=300 default)
 	int GetGold() const{
 		return gold;
 	}
 	void SetGold(int g){
 		gold = g;
+	}
+	std::vector<std::pair<int, int> >* GetUnitsCoords(){
+		return &unitsCoords;
 	}
 	vector<pair<Creature*, int>* >* ReturnUnits(){  // not a const; the units will be changed after being returned
 		return &(this->units);
@@ -50,5 +58,6 @@ public:
 protected:
 	int gold;
 	std::vector<pair<Creature*, int>* > units;
+	std::vector<std::pair<int, int> > unitsCoords;
 };
 #endif
