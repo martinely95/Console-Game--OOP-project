@@ -202,11 +202,12 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			return;
 		}
 		int allowedDistance = (*sourceCoords)->at(0)->GetAttackRange();
-		if (distance > allowedDistance){
+		if (distance > allowedDistance && allowedDistance != -1){
 			cout << "Target coordinates are too far." << endl << endl;
 			return;
 		}
-		if (targetCoords != nullptr){
+		if (*targetCoords != nullptr && (*targetCoords)->size() > 0){
+			std::string isEnemyLetter = (*targetCoords)->at(0)->GetOwnership();
 			//ednovremenno 6te badat atakuvani vsi4ki i vsi4ki 6te imat = health
 			double attackPower = (*sourceCoords)->at(0)->GetDamage() * (*sourceCoords)->size();
 			double defensePower = (*targetCoords)->at(0)->GetDefense() * (*targetCoords)->size();
@@ -217,12 +218,33 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 				if (newHealth > 0)
 					(*targetCoords)->at(i)->SetHealth(newHealth);
 				else{
+					// go home if dead
+					std::vector<Creature*>  **homeCoordinates;
+					if (isEnemyLetter == "E"){
+						if (!(--ReturnEnemy()->ReturnUnits()->at((*targetCoords)->at(0)->GetType())->second)){
+							int homeX = bf->ReturnInitCoords()->at((*targetCoords)->at(0)->GetType() + 4).first;
+							int homeY = bf->ReturnInitCoords()->at((*targetCoords)->at(0)->GetType() + 4).second;
+							homeCoordinates = &(*bf)[homeX][homeY];
+						}
+					}
+					else{
+						if (!(--ReturnPlayer()->ReturnUnits()->at((*targetCoords)->at(0)->GetType())->second)){
+							int homeX = bf->ReturnInitCoords()->at((*targetCoords)->at(0)->GetType()).first;
+							int homeY = bf->ReturnInitCoords()->at((*targetCoords)->at(0)->GetType()).second;
+							homeCoordinates = &(*bf)[homeX][homeY];
+						}
+					}
 					delete (*targetCoords)->at(i);	
 					(*targetCoords)->erase((*targetCoords)->begin() + i);
+					if ((*targetCoords)->size() < 1){
+						//restart position on field and in player
+						*homeCoordinates = *targetCoords;
+						*targetCoords = nullptr;
+						break;
+					}
 					i--;
 				}
 				i++;
-				//TODO: trqbva i v brojkata v saotvetniq igra4 da namalqva
 			//TODO: checks
 			}
 			cout << "Successfully attacked something from " << commands[1] << " at " << commands[2] << "." << endl << endl;
