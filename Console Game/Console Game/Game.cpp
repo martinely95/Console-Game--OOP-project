@@ -155,7 +155,7 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			cout << "Invalid coordinates." << endl << endl;
 			return;
 		}
-		if (sourceCoords == nullptr){
+		if (*sourceCoords == nullptr){
 			cout << "There is nothing to move." << endl << endl;
 			return;
 		}
@@ -181,6 +181,7 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 	}
 	else if (commands[0] == "attack")  // - нападане на противникова единица
 	{
+		//attack with hero not implemented
 		int a[2], b[2];
 		a[0] = StringToInt(CharToString(commands[1][1]));
 		a[1] = StringToInt(CharToString(commands[1][3]));
@@ -193,7 +194,7 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			cout << "Invalid coordinates." << endl << endl;
 			return;
 		}
-		if (sourceCoords == nullptr){
+		if (*sourceCoords == nullptr){
 			cout << "There is nothing to attack with." << endl << endl;
 			return;
 		}
@@ -286,6 +287,7 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 	else if (action == "end move")  // -приключване на текущия ход.
 	{
 		EnemyTurn();
+		EndGame();
 		/*
 		Когато приключим хода, противниковият играч трябва да изиграе хода си и да разположи своите единици, след което отново ние сме наред.
 		*/
@@ -304,7 +306,7 @@ void Game::GameMenu()
 
 	string action;
 	bool exit = false;
-	while (!exit)
+	while (!exit && !endGame)
 	{
 		cout << "Game menu." << endl; 	// също така трябва да изписва кой е на ход в момента: играч/ противник
 		if (this->playerTurn) 

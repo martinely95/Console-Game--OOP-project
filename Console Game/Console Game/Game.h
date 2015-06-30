@@ -74,14 +74,36 @@ public:
 	void EnemyTurn();
 
 	void EndGame(){
-		// // tuk nai veroqtno 6te se proverqva dali nqkoi ima ostanali edinici i 
-		// ako nqma 6te se promenq endGame = true i playerWins = true
-		
-		
-		//izpisvame koi e spe4elil i kolko zlato ala bala
-
-
-
+		int count = 0, enCount = 0;
+		for (int y = 9; y >= 0; y--){
+			for (int x = 0; x < 10; x++){
+				if ((field[x][y] != nullptr && field[x][y]->size() > 0)){
+					std::string ownership = field[x][y]->at(0)->GetOwnership();
+					if (ownership == " "){
+						count++;
+					}
+					else{
+						enCount++;
+					}
+				}
+			}
+		}
+		if (!count){
+			endGame = true;
+			playerWins = false;
+			cout << "End of game. You lose." << endl << endl;
+			int newGold = ReturnPlayer()->GetGold() - 100;
+			if (newGold > 0)
+				ReturnPlayer()->SetGold(ReturnPlayer()->GetGold() - 100);
+			else
+				ReturnPlayer()->SetGold(0);
+		}
+		if (!enCount){
+			endGame = true;
+			playerWins = true;
+			cout << "End of game. You win." << endl << endl;
+			ReturnPlayer()->SetGold(ReturnPlayer()->GetGold() + 200);
+		}
 	}
 
 	void Run(){
