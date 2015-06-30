@@ -63,7 +63,6 @@ public:
 		units1->at(1)->first->SetOwnership("E");
 		units1->at(2)->first->SetOwnership("E");
 		units1->at(3)->first->SetOwnership("E");
-		units1->at(4)->first->SetOwnership("E");
 		m_enemy->SetGold(10);
 
 		m_player = new Player;

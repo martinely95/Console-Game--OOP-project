@@ -1,10 +1,10 @@
-﻿Build started 30.06.2015 04:34:32 ч..
+﻿Build started 30.06.2015 02:28:40 ч..
      1>Project "D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Console Game\Console Game.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp
          Game.cpp
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\game.cpp(274): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\battlefield.h(178): warning C4715: 'Battlefield::operator[]' : not all control paths return a value
+     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\game.cpp(248): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\github\game-developing\oop project console game\console-game--oop-project-\console game\console game\battlefield.h(177): warning C4715: 'Battlefield::operator[]' : not all control paths return a value
        Link:
          D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Debug\Console Game.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Debug\Console Game.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GitHub\Game-developing\OOP Project Console Game\Console-Game--OOP-project-\Console Game\Debug\Console Game.lib" /MACHINE:X86 Debug\Game.obj
          Debug\main.obj
@@ -13,4 +13,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.92
+Time Elapsed 00:00:01.88
