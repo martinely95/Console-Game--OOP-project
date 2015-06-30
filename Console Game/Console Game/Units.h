@@ -12,9 +12,9 @@ enum Creatures {
 
 class Creature{
 public:
-	Creature() : damage(1), defense(1), health(5), mana(3), stamina(3), critChance(1), attackRange(1), type(Creatures::nothing), enemyUnit(" "){};
+	Creature() : damage(1), defense(8), health(5), mana(3), stamina(3), critChance(1), attackRange(1), type(Creatures::nothing), enemyUnitLetter(" "){};
 	Creature(int damage, int defense, double health, int mana, int stamina, int critChance, int attackRange, Creatures t, std::string e) : 
-		damage(damage), defense(defense), health(health), mana(mana), stamina(stamina), critChance(critChance), attackRange(attackRange), type(t), enemyUnit(e){};
+		damage(damage), defense(defense), health(health), mana(mana), stamina(stamina), critChance(critChance), attackRange(attackRange), type(t), enemyUnitLetter(e){};
 	
 	int GetDamage() const{
 		return damage;
@@ -42,10 +42,10 @@ public:
 		return type;
 	}
 	std::string GetOwnership() const{
-		return enemyUnit;
+		return enemyUnitLetter;
 	}
 	void SetOwnership(std::string e){
-		enemyUnit = e;
+		enemyUnitLetter = e;
 	}
 
 	void SetDamage(int a){
@@ -82,7 +82,7 @@ protected:
 	int critChance;  // critChance определя възможността съществото да нанесе двоен damage при атака TODO:da go napravq v %
 	int attackRange;  // определя колко е обхвата на атаката
 	Creatures type;
-	std::string enemyUnit;
+	std::string enemyUnitLetter;
 };
 
 class Peasant : public Creature {

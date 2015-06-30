@@ -17,16 +17,19 @@ public:
 		Creature* playerUnitFootman = new Footman;
 		Creature* playerUnitArcher = new Archer;
 		Creature* playerUnitGriffon = new Griffon;
+		Creature* playerUnitHero = new Hero;
 
 		std::pair<Creature*, int>* p1 = new std::pair<Creature*, int>(playerUnitPeasant, 0);
 		std::pair<Creature*, int>* p2 = new std::pair<Creature*, int>(playerUnitFootman, 0);
 		std::pair<Creature*, int>* p3 = new std::pair<Creature*, int>(playerUnitArcher, 0);
 		std::pair<Creature*, int>* p4 = new std::pair<Creature*, int>(playerUnitGriffon, 0);
+		std::pair<Creature*, int>* p5 = new std::pair<Creature*, int>(playerUnitHero, 1);
 
 		units.push_back(p1);
 		units.push_back(p2);
 		units.push_back(p3);
 		units.push_back(p4);
+		units.push_back(p5);
 
 		for (int i = 0; i < 10; i += 3){
 			std::pair<int, int> coords(int(enemy)*9, i);

@@ -156,6 +156,7 @@ public:
 				// iterator->first = key
 				// iterator->second = value
 			}
+			cout << " H 1 EH 1";
 			cout << endl << endl;
 			file.close();
 		}
@@ -175,7 +176,9 @@ public:
 			cout << ex.what() << endl;
 		}
 	}
-
+	std::vector<std::pair<int, int> >* ReturnInitCoords(){
+		return &initCoords;
+	}
 protected:
 	int SIZE_X = 10;
 	int SIZE_Y = 10;
