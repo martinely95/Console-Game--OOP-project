@@ -168,9 +168,18 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			cout << "Target coordinates are too far." << endl << endl;
 			return;
 		}
+
 		if (*targetCoords == nullptr){
+			if ((*sourceCoords)->at(0)->GetUsed()){
+				cout << "Units already used." << endl << endl;
+				return;
+			}
 			*targetCoords = *sourceCoords;
 			*sourceCoords = nullptr;
+			for (int i = 0; i < (*sourceCoords)->size(); i++)
+			{
+				(*sourceCoords)->at(i)->SetUsed();
+			}
 			cout << "Successfully moved something from " << commands[1] << " to " << commands[2] << "." << endl << endl;
 			//changing the coordinates in the player:
 			ReturnPlayer()->ReturnUnitsCoords()->at((*targetCoords)->at(0)->GetType()).first = b[0];
@@ -208,6 +217,10 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			return;
 		}
 		if (*targetCoords != nullptr && (*targetCoords)->size() > 0){
+			if ((*sourceCoords)->at(0)->GetUsed()){
+				cout << "Units already used." << endl << endl;
+				return;
+			}
 			std::string isEnemyLetter = (*targetCoords)->at(0)->GetOwnership();
 			//ednovremenno 6te badat atakuvani vsi4ki i vsi4ki 6te imat = health
 			double attackPower = (*sourceCoords)->at(0)->GetDamage() * (*sourceCoords)->size();
@@ -246,7 +259,10 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 					i--;
 				}
 				i++;
-			//TODO: checks
+			}
+			for (int i = 0; i < (*sourceCoords)->size(); i++)
+			{
+				(*sourceCoords)->at(i)->SetUsed();
 			}
 			cout << "Successfully attacked something from " << commands[1] << " at " << commands[2] << "." << endl << endl;
 		}
@@ -254,7 +270,6 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 			cout << "There is nothing to aim at." << endl << endl;
 			return;
 		}
-		// not implemented yet
 		/*
 		-командата да е attack <source coords> <destination coords>.
 		Например ако на(4, 4) имаме противников Footman, а на(2, 2) имаме наш Peasant, 
@@ -288,6 +303,17 @@ void Game::GameMenuTakeAction(string& action, bool& exit)
 	{
 		EnemyTurn();
 		EndGame();
+		for (int y = 9; y >= 0; y--){
+			for (int x = 0; x < 10; x++){
+				if ((field[x][y] != nullptr && field[x][y]->size() > 0)){
+					for (int i = 0; i < field[x][y]->size(); i++)
+					{
+						field[x][y]->at(i)->SetUsed(false);
+					}
+				}
+			}
+		}
+		
 		/*
 		Когато приключим хода, противниковият играч трябва да изиграе хода си и да разположи своите единици, след което отново ние сме наред.
 		*/
