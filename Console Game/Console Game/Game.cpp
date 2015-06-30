@@ -355,4 +355,44 @@ void Game::GameMenu()
 
 void Game::EnemyTurn(){
 	// not implemented yet; artificial intelligence
+	std::vector<std::vector<Creature*>** > enemyUnits;
+	std::vector<std::vector<Creature*>** >playerUnits;
+	std::vector<std::pair<int, int> > enemyCoords;
+	std::vector<std::pair<int, int> > playerCoords;
+	std::pair<int, int> average, enAverage;
+	for (int y = 9; y >= 0; y--){
+		for (int x = 0; x < 10; x++){
+			if ((field[x][y] != nullptr && field[x][y]->size() > 0)){
+				std::string ownership = field[x][y]->at(0)->GetOwnership();
+				if (ownership == " "){
+					playerUnits.push_back(&(field[x][y]));
+					playerCoords.push_back(std::pair<int, int>(x, y));
+					average.first += x;
+					average.second += y;
+				}
+				else{
+					enemyUnits.push_back(&(field[x][y]));
+					enemyCoords.push_back(std::pair<int, int>(x, y));
+					enAverage.first += x;
+					enAverage.second += y;
+				}
+			}
+		}
+	}
+	//get average coords
+	average.first /= playerCoords.size();
+	average.second /= playerCoords.size();
+	enAverage.first /= enemyCoords.size();
+	enAverage.second /= enemyCoords.size();
+
+	short move = 1;
+	for (int i = 0; i < enemyUnits.size(); i++){
+		if (move > 0){
+			
+		}
+		else{
+
+		}
+		move *= (-1);
+	}
 }
